@@ -1,0 +1,17 @@
+[
+	{
+		"username": "phong",
+		"perms": {
+			"admin": true
+		}
+	},
+	{
+		"username": "nga",
+		"perms": {
+			"write": true
+		}
+	},
+	{
+		"username": "nga"
+	}
+]

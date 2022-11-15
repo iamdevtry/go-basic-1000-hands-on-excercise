@@ -1,0 +1,7 @@
+Inanc's game store has 3 games.
+
+  > list   : lists all the games
+  > id N   : queries a game by id
+  > save   : exports the data to json and quits
+  > quit   : quits
+

@@ -67,7 +67,7 @@ func main() {
 		fmt.Printf("%-30s %10d\n", domain, parser.visits)
 	}
 
-	//Print the toatal visits for all domains
+	//Print the total visits for all domains
 	fmt.Printf("\n%-30s %10d\n", "TOTAL", p.total)
 
 	//Let's handle the error

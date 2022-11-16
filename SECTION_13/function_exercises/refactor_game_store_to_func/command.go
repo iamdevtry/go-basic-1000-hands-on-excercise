@@ -1,12 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
 )
 
-func runCmd(input string, games []game, byId map[int]game) bool {
+func runCmd(input string, games []game, byID map[int]game) bool {
 	fmt.Println()
 
 	cmd := strings.Fields(input)
@@ -22,9 +23,11 @@ func runCmd(input string, games []game, byId map[int]game) bool {
 		return cmdList(games)
 
 	case "id":
-		return cmdById(cmd, games, byId)
-	}
+		return cmdByID(cmd, games, byID)
 
+	case "save":
+		return cmdSave(games)
+	}
 	return true
 }
 
@@ -40,27 +43,42 @@ func cmdList(games []game) bool {
 	return true
 }
 
-func cmdById(cmd []string, games []game, byId map[int]game) bool {
+func cmdByID(cmd []string, games []game, byID map[int]game) bool {
 	if len(cmd) != 2 {
 		fmt.Println("wrong id")
 		return true
 	}
 
 	id, err := strconv.Atoi(cmd[1])
-
 	if err != nil {
 		fmt.Println("wrong id")
 		return true
 	}
 
-	g, ok := byId[id]
-
+	g, ok := byID[id]
 	if !ok {
-		fmt.Println("sorry, I don't have the game")
+		fmt.Println("sorry. I don't have the game")
 		return true
 	}
 
 	printGame(g)
 
 	return true
+}
+
+func cmdSave(games []game) bool {
+	// load the data into encodable game values
+	var jg []jsonGame
+	for _, g := range games {
+		jg = append(jg, jsonGame{g.id, g.name, g.genre, g.price})
+	}
+
+	out, err := json.MarshalIndent(jg, "", "\t")
+	if err != nil {
+		fmt.Println("sorry, can't save:", err)
+		return true
+	}
+
+	fmt.Println(string(out))
+	return false
 }
